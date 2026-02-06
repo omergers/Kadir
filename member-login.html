@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Üye Giriş</title>
+  <style>
+    body{font-family:system-ui;margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b0b;color:#fff}
+    .card{width:min(520px,92vw);background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:18px}
+    label{display:block;margin:10px 0 6px}
+    input{width:100%;padding:12px;border-radius:12px;border:1px solid #333;background:#0f0f0f;color:#fff}
+    button{width:100%;margin-top:14px;padding:12px;border-radius:12px;border:0;cursor:pointer}
+    a{color:#9ad}
+    .small{opacity:.8;font-size:13px;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Üye Giriş</h2>
+    <p class="small">Demo giriş: daha önce kayıt olduysan panel açılır.</p>
+
+    <form id="f">
+      <label>E-posta</label>
+      <input name="email" type="email" required />
+
+      <label>Şifre</label>
+      <input name="password" type="password" required />
+
+      <button type="submit">Giriş Yap → Üye Paneli</button>
+    </form>
+
+    <p class="small">
+      Yeni misin? <a href="member-register.html">Hemen kayıt ol</a>
+    </p>
+  </div>
+
+  <script>
+    // zaten oturum varsa direkt panele
+    const session = localStorage.getItem("ky_session");
+    if (session) location.href = "member-dashboard.html";
+
+    document.getElementById("f").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      const users = JSON.parse(localStorage.getItem("ky_users") || "[]");
+      const u = users.find(x => (x.email || "").toLowerCase() === data.email.toLowerCase());
+
+      if (!u || u.password !== data.password) {
+        alert("E-posta veya şifre hatalı.");
+        return;
+      }
+
+      localStorage.setItem("ky_session", u.email.toLowerCase());
+      location.href = "member-dashboard.html";
+    });
+  </script>
+</body>
+</html>
