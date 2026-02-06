@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Üye Kayıt</title>
+  <style>
+    body{font-family:system-ui;margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b0b;color:#fff}
+    .card{width:min(520px,92vw);background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:18px}
+    label{display:block;margin:10px 0 6px}
+    input{width:100%;padding:12px;border-radius:12px;border:1px solid #333;background:#0f0f0f;color:#fff}
+    button{width:100%;margin-top:14px;padding:12px;border-radius:12px;border:0;cursor:pointer}
+    a{color:#9ad}
+    .row{display:flex;gap:10px}
+    .row>*{flex:1}
+    .small{opacity:.8;font-size:13px;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Üye Kayıt</h2>
+    <p class="small">Demo kayıt: bilgiler tarayıcında saklanır (backend yok).</p>
+
+    <form id="f">
+      <div class="row">
+        <div>
+          <label>Ad Soyad</label>
+          <input name="name" required />
+        </div>
+        <div>
+          <label>Telefon</label>
+          <input name="phone" required />
+        </div>
+      </div>
+
+      <label>E-posta</label>
+      <input name="email" type="email" required />
+
+      <label>Şifre</label>
+      <input name="password" type="password" minlength="4" required />
+
+      <button type="submit">Kaydı Oluştur → Üye Paneline Git</button>
+    </form>
+
+    <p class="small">
+      Zaten üye misin? <a href="member-login.html">Giriş yap</a>
+    </p>
+  </div>
+
+  <script>
+    const f = document.getElementById("f");
+    f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(f).entries());
+
+      const users = JSON.parse(localStorage.getItem("ky_users") || "[]");
+      const exists = users.some(u => (u.email || "").toLowerCase() === data.email.toLowerCase());
+      if (exists) {
+        alert("Bu e-posta ile zaten kayıt var. Giriş yapmayı deneyin.");
+        location.href = "member-login.html";
+        return;
+      }
+
+      users.push({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        password: data.password, // demo
+        createdAt: new Date().toISOString()
+      });
+
+      localStorage.setItem("ky_users", JSON.stringify(users));
+      localStorage.setItem("ky_session", data.email.toLowerCase()); // oturum
+      location.href = "member-dashboard.html";
+    });
+  </script>
+</body>
+</html>
