@@ -827,3 +827,8 @@
     </script>
 </body>
 </html>
+<script>
+  const session = localStorage.getItem("ky_session");
+  if (!session) location.href = "member-login.html";
+</script>
+<button onclick="localStorage.removeItem('ky_session'); location.href='index.html'">Çıkış Yap</button>
