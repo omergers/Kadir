@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Yönetimi - Kadir Yılmaz Koç</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --dark-orange: #E85A28;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --text-gray: #CCCCCC;
+            --white: #FFFFFF;
+            --green: #4CAF50;
+            --red: #F44336;
+            --blue: #2196F3;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        /* Sidebar - Same as admin dashboard */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--gray);
+            border-right: 1px solid var(--light-gray);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--orange);
+            padding: 0 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-badge {
+            background: var(--orange);
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            margin: 0 2rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            padding: 0 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--orange);
+            border-left-color: var(--orange);
+        }
+
+        .sidebar-nav .icon {
+            font-size: 1.3rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--orange);
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--orange);
+            text-decoration: none;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--gray);
+            padding: 1.5rem;
+            border-left: 4px solid var(--orange);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            padding: 0.8rem 1.5rem;
+            color: var(--white);
+            width: 100%;
+            max-width: 400px;
+            font-size: 0.9rem;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-gray);
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Admin Table */
+        .card {
+            background: var(--gray);
+            padding: 0;
+            border: 1px solid var(--light-gray);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--light-gray);
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+        }
+
+        td {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--light-gray);
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .admin-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-username {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .admin-meta {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-badge.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--green);
+        }
+
+        .status-badge.inactive {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--red);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-icon:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: var(--white);
+        }
+
+        .btn-icon.danger:hover {
+            background: var(--red);
+            border-color: var(--red);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--orange);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--orange);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--light-gray);
+            border: 1px solid var(--light-gray);
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--orange);
+            background: var(--black);
+        }
+
+        .form-help {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            padding: 0.8rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-gray);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .alert.success {
+            background: rgba(76, 175, 80, 0.1);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .alert.error {
+            background: rgba(244, 67, 54, 0.1);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .alert-close {
+            float: right;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-gray);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-subtext {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--orange);
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 5rem 1rem 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.8rem 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">KADIR YILMAZ</div>
+        <div class="admin-badge">👑 Admin Panel</div>
+
+        <nav>
+            <ul class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Genel</div>
+                    <li>
+                        <a href="admin-dashboard.html">
+                            <span class="icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Sistem</div>
+                    <li>
+                        <a href="#" class="active">
+                            <span class="icon">👤</span>
+                            <span>Admin Yönetimi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">⚙️</span>
+                            <span>Ayarlar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin-login.html">
+                            <span class="icon">🚪</span>
+                            <span>Çıkış Yap</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Alert Message (Hidden by default) -->
+        <div id="alertContainer"></div>
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div>
+                <h1 class="page-title">Admin Yönetimi</h1>
+                <div class="breadcrumb">
+                    <a href="admin-dashboard.html">Dashboard</a> / Admin Yönetimi
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Toplam Admin</div>
+                <div class="stat-value" id="totalAdmins">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Aktif Admin</div>
+                <div class="stat-value" id="activeAdmins">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pasif Admin</div>
+                <div class="stat-value" id="inactiveAdmins">0</div>
+            </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="action-bar">
+            <input 
+                type="text" 
+                class="search-box" 
+                placeholder="Admin ara..."
+                id="searchInput"
+                onkeyup="searchAdmins()"
+            >
+            <button class="btn-primary" onclick="openAddModal()">
+                + Yeni Admin Ekle
+            </button>
+        </div>
+
+        <!-- Admin Table -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Tüm Adminler</h2>
+            </div>
+            <div class="table-container">
+                <table id="adminTable">
+                    <thead>
+                        <tr>
+                            <th>Admin</th>
+                            <th>Eklenme Tarihi</th>
+                            <th>Son Giriş</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Yeni Admin Ekle</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="adminForm" onsubmit="saveAdmin(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="adminUsername">Kullanıcı Adı *</label>
+                        <input 
+                            type="text" 
+                            id="adminUsername" 
+                            class="form-input" 
+                            placeholder="admin123"
+                            required
+                        >
+                        <div class="form-help">Sadece harf, rakam ve alt çizgi kullanın</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="adminPassword">Şifre *</label>
+                        <input 
+                            type="password" 
+                            id="adminPassword" 
+                            class="form-input" 
+                            placeholder="••••••••"
+                            required
+                        >
+                        <div class="form-help">Minimum 6 karakter</div>
+                    </div>
+
+                    <div class="form-group" id="confirmPasswordGroup">
+                        <label class="form-label" for="adminPasswordConfirm">Şifre Tekrar *</label>
+                        <input 
+                            type="password" 
+                            id="adminPasswordConfirm" 
+                            class="form-input" 
+                            placeholder="••••••••"
+                            required
+                        >
+                    </div>
+
+                    <input type="hidden" id="adminId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">
+                        İptal
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Admin Sil</h2>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                    <strong id="deleteAdminName"></strong> adlı admini silmek istediğinizden emin misiniz?
+                </p>
+                <p style="color: var(--text-gray); font-size: 0.9rem;">
+                    Bu işlem geri alınamaz!
+                </p>
+                <input type="hidden" id="deleteAdminId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeDeleteModal()">
+                    İptal
+                </button>
+                <button type="button" class="btn-danger" onclick="confirmDelete()">
+                    Evet, Sil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo Data - Bu gerçek backend'e bağlanacak
+        let admins = [
+            {
+                id: 1,
+                username: 'admin',
+                password: 'admin123',
+                createdAt: '2026-01-01',
+                lastLogin: '2026-02-05 14:30',
+                status: 'active'
+            },
+            {
+                id: 2,
+                username: 'kadir',
+                password: 'kadir123',
+                createdAt: '2026-01-15',
+                lastLogin: '2026-02-04 09:15',
+                status: 'active'
+            },
+            {
+                id: 3,
+                username: 'moderator',
+                password: 'mod123',
+                createdAt: '2026-02-01',
+                lastLogin: 'Hiç giriş yapmadı',
+                status: 'inactive'
+            }
+        ];
+
+        let editingId = null;
+
+        // Initialize
+        function init() {
+            renderAdmins();
+            updateStats();
+        }
+
+        // Render Admin Table
+        function renderAdmins(filteredAdmins = null) {
+            const tbody = document.getElementById('adminTableBody');
+            const dataToRender = filteredAdmins || admins;
+
+            if (dataToRender.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <div class="empty-icon">👤</div>
+                                <div class="empty-text">Henüz admin bulunmuyor</div>
+                                <div class="empty-subtext">Yeni admin eklemek için yukarıdaki butona tıklayın</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = dataToRender.map(admin => `
+                <tr>
+                    <td>
+                        <div class="admin-info">
+                            <div class="admin-avatar">${admin.username.charAt(0).toUpperCase()}</div>
+                            <div class="admin-details">
+                                <div class="admin-username">${admin.username}</div>
+                                <div class="admin-meta">ID: ${admin.id}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${formatDate(admin.createdAt)}</td>
+                    <td>${admin.lastLogin}</td>
+                    <td>
+                        <span class="status-badge ${admin.status}">
+                            ${admin.status === 'active' ? 'Aktif' : 'Pasif'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editAdmin(${admin.id})" title="Düzenle">
+                                ✏️
+                            </button>
+                            <button class="btn-icon" onclick="toggleStatus(${admin.id})" title="Durum Değiştir">
+                                ${admin.status === 'active' ? '🔴' : '🟢'}
+                            </button>
+                            <button class="btn-icon danger" onclick="openDeleteModal(${admin.id})" title="Sil">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Update Stats
+        function updateStats() {
+            const total = admins.length;
+            const active = admins.filter(a => a.status === 'active').length;
+            const inactive = total - active;
+
+            document.getElementById('totalAdmins').textContent = total;
+            document.getElementById('activeAdmins').textContent = active;
+            document.getElementById('inactiveAdmins').textContent = inactive;
+        }
+
+        // Format Date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('tr-TR', options);
+        }
+
+        // Search Admins
+        function searchAdmins() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = admins.filter(admin => 
+                admin.username.toLowerCase().includes(query)
+            );
+            renderAdmins(filtered);
+        }
+
+        // Open Add Modal
+        function openAddModal() {
+            editingId = null;
+            document.getElementById('modalTitle').textContent = 'Yeni Admin Ekle';
+            document.getElementById('adminForm').reset();
+            document.getElementById('adminId').value = '';
+            document.getElementById('confirmPasswordGroup').style.display = 'block';
+            document.getElementById('adminPassword').required = true;
+            document.getElementById('adminPasswordConfirm').required = true;
+            document.getElementById('adminModal').classList.add('show');
+        }
+
+        // Edit Admin
+        function editAdmin(id) {
+            editingId = id;
+            const admin = admins.find(a => a.id === id);
+            
+            document.getElementById('modalTitle').textContent = 'Admin Düzenle';
+            document.getElementById('adminUsername').value = admin.username;
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminPasswordConfirm').value = '';
+            document.getElementById('adminId').value = id;
+            document.getElementById('confirmPasswordGroup').style.display = 'block';
+            document.getElementById('adminPassword').required = false;
+            document.getElementById('adminPasswordConfirm').required = false;
+            document.getElementById('adminPassword').placeholder = 'Değiştirmek istemiyorsanız boş bırakın';
+            
+            document.getElementById('adminModal').classList.add('show');
+        }
+
+        // Save Admin
+        function saveAdmin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const passwordConfirm = document.getElementById('adminPasswordConfirm').value;
+            const id = document.getElementById('adminId').value;
+
+            // Validation
+            if (username.length < 3) {
+                showAlert('Kullanıcı adı en az 3 karakter olmalıdır!', 'error');
+                return;
+            }
+
+            if (password && password.length < 6) {
+                showAlert('Şifre en az 6 karakter olmalıdır!', 'error');
+                return;
+            }
+
+            if (password && password !== passwordConfirm) {
+                showAlert('Şifreler eşleşmiyor!', 'error');
+                return;
+            }
+
+            // Check duplicate username
+            const duplicate = admins.find(a => 
+                a.username === username && a.id != id
+            );
+            if (duplicate) {
+                showAlert('Bu kullanıcı adı zaten kullanılıyor!', 'error');
+                return;
+            }
+
+            if (editingId) {
+                // Update existing
+                const admin = admins.find(a => a.id == editingId);
+                admin.username = username;
+                if (password) {
+                    admin.password = password;
+                }
+                showAlert('Admin başarıyla güncellendi!', 'success');
+            } else {
+                // Add new
+                const newAdmin = {
+                    id: admins.length > 0 ? Math.max(...admins.map(a => a.id)) + 1 : 1,
+                    username: username,
+                    password: password,
+                    createdAt: new Date().toISOString().split('T')[0],
+                    lastLogin: 'Hiç giriş yapmadı',
+                    status: 'active'
+                };
+                admins.push(newAdmin);
+                showAlert('Yeni admin başarıyla eklendi!', 'success');
+            }
+
+            closeModal();
+            renderAdmins();
+            updateStats();
+        }
+
+        // Toggle Status
+        function toggleStatus(id) {
+            const admin = admins.find(a => a.id === id);
+            admin.status = admin.status === 'active' ? 'inactive' : 'active';
+            renderAdmins();
+            updateStats();
+            showAlert(`${admin.username} ${admin.status === 'active' ? 'aktif' : 'pasif'} hale getirildi!`, 'success');
+        }
+
+        // Open Delete Modal
+        function openDeleteModal(id) {
+            const admin = admins.find(a => a.id === id);
+            document.getElementById('deleteAdminName').textContent = admin.username;
+            document.getElementById('deleteAdminId').value = id;
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        // Confirm Delete
+        function confirmDelete() {
+            const id = parseInt(document.getElementById('deleteAdminId').value);
+            const admin = admins.find(a => a.id === id);
+            const username = admin.username;
+            
+            admins = admins.filter(a => a.id !== id);
+            
+            closeDeleteModal();
+            renderAdmins();
+            updateStats();
+            showAlert(`${username} başarıyla silindi!`, 'success');
+        }
+
+        // Close Modals
+        function closeModal() {
+            document.getElementById('adminModal').classList.remove('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
+
+        // Show Alert
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertId = 'alert-' + Date.now();
+            
+            const alertHTML = `
+                <div class="alert ${type}" id="${alertId}">
+                    <button class="alert-close" onclick="closeAlert('${alertId}')">&times;</button>
+                    <strong>${type === 'success' ? '✓' : '⚠️'}</strong> ${message}
+                </div>
+            `;
+            
+            alertContainer.innerHTML = alertHTML;
+            
+            setTimeout(() => {
+                closeAlert(alertId);
+            }, 5000);
+        }
+
+        function closeAlert(id) {
+            const alert = document.getElementById(id);
+            if (alert) {
+                alert.remove();
+            }
+        }
+
+        // Sidebar Toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Close sidebar on outside click (mobile)
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Close modal on outside click
+        window.addEventListener('click', (e) => {
+            const adminModal = document.getElementById('adminModal');
+            const deleteModal = document.getElementById('deleteModal');
+            
+            if (e.target === adminModal) {
+                closeModal();
+            }
+            if (e.target === deleteModal) {
+                closeDeleteModal();
+            }
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

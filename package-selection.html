@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Seçimi - Kadir Yılmaz Koç</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --orange: #FF6B35;
+            --dark-orange: #E85A28;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --text-gray: #CCCCCC;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue';
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue';
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .package-card {
+            background: var(--gray);
+            border: 2px solid var(--light-gray);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .package-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-5px);
+        }
+
+        .package-card.selected {
+            border-color: var(--orange);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .package-name {
+            font-family: 'Bebas Neue';
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-duration {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .package-price {
+            font-family: 'Bebas Neue';
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin: 1rem 0;
+        }
+
+        .package-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .package-features li {
+            padding: 0.5rem 0;
+            color: var(--text-gray);
+        }
+
+        .package-features li::before {
+            content: '✓ ';
+            color: var(--orange);
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--orange);
+            border: none;
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .select-btn:hover {
+            background: var(--dark-orange);
+        }
+
+        .continue-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--gray);
+            border-top: 2px solid var(--orange);
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .continue-section.show {
+            display: block;
+        }
+
+        .continue-btn {
+            padding: 1.2rem 3rem;
+            background: var(--orange);
+            border: none;
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KADIR YILMAZ</div>
+            <h1>Paketini Seç</h1>
+            <p class="subtitle">Hedeflerine ulaşmak için doğru paketi seç!</p>
+        </div>
+
+        <div class="packages-grid" id="packagesGrid"></div>
+    </div>
+
+    <div class="continue-section" id="continueSection">
+        <div class="container">
+            <span id="selectedInfo"></span>
+            <button class="continue-btn" onclick="goToPayment()">Ödemeye Geç →</button>
+        </div>
+    </div>
+
+    <script>
+        const packages = [
+            {id: 'starter', name: 'STARTER', duration: '6 Hafta', price: '2.400₺', features: ['Antrenman', 'Beslenme', 'Video', 'Soru-Cevap']},
+            {id: 'transform', name: 'TRANSFORM', duration: '3 Ay', price: '2.950₺', features: ['Antrenman', 'Beslenme', 'Video', 'Soru-Cevap', 'Rapor']},
+            {id: 'ultimate', name: 'ULTIMATE', duration: '6 Ay', price: '3.900₺', features: ['Antrenman', 'Beslenme', 'Video', 'Soru-Cevap', 'Rapor', 'Supplement']},
+            {id: 'champion', name: 'CHAMPION', duration: '1 Yıl', price: '5.549₺', features: ['Antrenman', 'Beslenme', 'Video', 'Soru-Cevap', 'Rapor', 'Supplement', 'Tarifler']}
+        ];
+
+        let selected = null;
+
+        function render() {
+            const grid = document.getElementById('packagesGrid');
+            grid.innerHTML = packages.map(p => `
+                <div class="package-card ${selected === p.id ? 'selected' : ''}" onclick="selectPackage('${p.id}')">
+                    <div class="package-name">${p.name}</div>
+                    <div class="package-duration">${p.duration}</div>
+                    <div class="package-price">${p.price}</div>
+                    <ul class="package-features">
+                        ${p.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <button class="select-btn">${selected === p.id ? 'Seçildi ✓' : 'Seç'}</button>
+                </div>
+            `).join('');
+        }
+
+        function selectPackage(id) {
+            selected = id;
+            const pkg = packages.find(p => p.id === id);
+            document.getElementById('selectedInfo').textContent = `${pkg.name} - ${pkg.price}`;
+            document.getElementById('continueSection').classList.add('show');
+            render();
+        }
+
+        function goToPayment() {
+            if(!selected) return alert('Paket seçin!');
+            localStorage.setItem('selectedPackage', JSON.stringify(packages.find(p => p.id === selected)));
+            window.location.href = 'payment.html';
+        }
+
+        render();
+    </script>
+</body>
+</html>

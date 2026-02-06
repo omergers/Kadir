@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Kadir Yılmaz Koç</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --dark-orange: #E85A28;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --text-gray: #CCCCCC;
+            --white: #FFFFFF;
+            --green: #4CAF50;
+            --red: #F44336;
+            --blue: #2196F3;
+            --yellow: #FFC107;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--gray);
+            border-right: 1px solid var(--light-gray);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--orange);
+            padding: 0 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-badge {
+            background: var(--orange);
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            margin: 0 2rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            padding: 0 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--orange);
+            border-left-color: var(--orange);
+        }
+
+        .sidebar-nav .icon {
+            font-size: 1.3rem;
+        }
+
+        .sidebar-nav .badge {
+            margin-left: auto;
+            background: var(--orange);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--orange);
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            padding: 0.8rem 1.5rem;
+            color: var(--white);
+            border-radius: 5px;
+            width: 300px;
+            font-size: 0.9rem;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-gray);
+        }
+
+        .add-btn {
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .add-btn:hover {
+            background: var(--dark-orange);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--gray);
+            padding: 2rem;
+            border-left: 4px solid var(--orange);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card.green {
+            border-left-color: var(--green);
+        }
+
+        .stat-card.blue {
+            border-left-color: var(--blue);
+        }
+
+        .stat-card.yellow {
+            border-left-color: var(--yellow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--orange);
+            opacity: 0.05;
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-trend.up {
+            color: var(--green);
+        }
+
+        .stat-trend.down {
+            color: var(--red);
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--gray);
+            padding: 2rem;
+            border: 1px solid var(--light-gray);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .card-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: var(--white);
+        }
+
+        /* Simple Chart Placeholder */
+        .chart-placeholder {
+            height: 250px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 100%;
+            width: 100%;
+            padding: 2rem;
+            gap: 0.5rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--orange), var(--dark-orange));
+            border-radius: 5px 5px 0 0;
+            min-height: 20%;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+
+        /* Revenue Widget */
+        .revenue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light-gray);
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .revenue-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .revenue-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--orange);
+        }
+
+        /* Members Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--light-gray);
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--light-gray);
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .member-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .member-email {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-badge.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--green);
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--yellow);
+        }
+
+        .status-badge.expired {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--red);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .action-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: var(--white);
+        }
+
+        /* Recent Questions */
+        .question-item {
+            padding: 1rem;
+            background: var(--light-gray);
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border-left: 3px solid var(--orange);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-user {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .question-time {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .question-text {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .question-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--yellow);
+            font-size: 0.75rem;
+            border-radius: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .question-status.answered {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--green);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--orange);
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 5rem 1rem 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .top-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .table-container {
+                overflow-x: scroll;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">KADIR YILMAZ</div>
+        <div class="admin-badge">👑 Admin Panel</div>
+
+        <nav>
+            <ul class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Genel</div>
+                    <li>
+                        <a href="#" class="active">
+                            <span class="icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📈</span>
+                            <span>Raporlar</span>
+                        </a>
+                    </li>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Üye Yönetimi</div>
+                    <li>
+                        <a href="#">
+                            <span class="icon">👥</span>
+                            <span>Tüm Üyeler</span>
+                            <span class="badge">142</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">➕</span>
+                            <span>Yeni Üye Ekle</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📋</span>
+                            <span>Paket Yönetimi</span>
+                        </a>
+                    </li>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Program Yönetimi</div>
+                    <li>
+                        <a href="#">
+                            <span class="icon">💪</span>
+                            <span>Antrenman Şablonları</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">🥗</span>
+                            <span>Beslenme Şablonları</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">🎥</span>
+                            <span>Egzersiz Kütüphanesi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📖</span>
+                            <span>Tarif Kütüphanesi</span>
+                        </a>
+                    </li>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">İletişim</div>
+                    <li>
+                        <a href="#">
+                            <span class="icon">❓</span>
+                            <span>Sorular</span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">💬</span>
+                            <span>Mesajlar</span>
+                            <span class="badge">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">🔔</span>
+                            <span>Bildirimler</span>
+                        </a>
+                    </li>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Sistem</div>
+                    <li>
+                        <a href="#">
+                            <span class="icon">⚙️</span>
+                            <span>Ayarlar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">🚪</span>
+                            <span>Çıkış Yap</span>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1 class="page-title">Admin Dashboard</h1>
+            <div class="top-actions">
+                <input type="text" class="search-box" placeholder="Üye ara...">
+                <button class="add-btn">+ Yeni Üye</button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-label">Toplam Üye</div>
+                <div class="stat-value">142</div>
+                <div class="stat-trend up">↑ 12 yeni üye bu ay</div>
+            </div>
+
+            <div class="stat-card green">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Aktif Abonelik</div>
+                <div class="stat-value">87</div>
+                <div class="stat-trend up">↑ %61 aktif oran</div>
+            </div>
+
+            <div class="stat-card blue">
+                <div class="stat-icon">💰</div>
+                <div class="stat-label">Aylık Gelir</div>
+                <div class="stat-value">₺42.850</div>
+                <div class="stat-trend up">↑ %18 geçen aya göre</div>
+            </div>
+
+            <div class="stat-card yellow">
+                <div class="stat-icon">❓</div>
+                <div class="stat-label">Bekleyen Soru</div>
+                <div class="stat-value">8</div>
+                <div class="stat-trend down">↓ 3 soru yanıtlandı</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <!-- Revenue Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gelir Grafiği</h2>
+                    <div class="card-filter">
+                        <button class="filter-btn active">7 Gün</button>
+                        <button class="filter-btn">30 Gün</button>
+                        <button class="filter-btn">12 Ay</button>
+                    </div>
+                </div>
+                <div class="chart-placeholder">
+                    <div class="chart-bars">
+                        <div class="chart-bar" style="height: 60%"></div>
+                        <div class="chart-bar" style="height: 75%"></div>
+                        <div class="chart-bar" style="height: 45%"></div>
+                        <div class="chart-bar" style="height: 90%"></div>
+                        <div class="chart-bar" style="height: 55%"></div>
+                        <div class="chart-bar" style="height: 85%"></div>
+                        <div class="chart-bar" style="height: 70%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gelir Özeti</h2>
+                </div>
+                <div class="revenue-item">
+                    <span class="revenue-label">Bu Ay</span>
+                    <span class="revenue-value">₺42.850</span>
+                </div>
+                <div class="revenue-item">
+                    <span class="revenue-label">Geçen Ay</span>
+                    <span class="revenue-value">₺36.300</span>
+                </div>
+                <div class="revenue-item">
+                    <span class="revenue-label">Bu Yıl</span>
+                    <span class="revenue-value">₺380.250</span>
+                </div>
+                <div class="revenue-item">
+                    <span class="revenue-label">Ortalama/Üye</span>
+                    <span class="revenue-value">₺492</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Members Table -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <h2 class="card-title">Son Üyeler</h2>
+                <a href="#" style="color: var(--orange); text-decoration: none;">Tümünü Gör →</a>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Üye</th>
+                            <th>Paket</th>
+                            <th>Başlangıç</th>
+                            <th>Bitiş</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">AY</div>
+                                    <div class="member-details">
+                                        <div class="member-name">Ahmet Yılmaz</div>
+                                        <div class="member-email">ahmet@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>3 Aylık</td>
+                            <td>15 Oca 2026</td>
+                            <td>15 Nis 2026</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn">Görüntüle</button>
+                                    <button class="action-btn">Düzenle</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">MK</div>
+                                    <div class="member-details">
+                                        <div class="member-name">Mehmet Kaya</div>
+                                        <div class="member-email">mehmet@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>6 Aylık</td>
+                            <td>20 Oca 2026</td>
+                            <td>20 Tem 2026</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn">Görüntüle</button>
+                                    <button class="action-btn">Düzenle</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">ES</div>
+                                    <div class="member-details">
+                                        <div class="member-name">Elif Şahin</div>
+                                        <div class="member-email">elif@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>3 Aylık</td>
+                            <td>25 Oca 2026</td>
+                            <td>25 Nis 2026</td>
+                            <td><span class="status-badge pending">Ödeme Bekliyor</span></td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn">Görüntüle</button>
+                                    <button class="action-btn">Düzenle</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">CÖ</div>
+                                    <div class="member-details">
+                                        <div class="member-name">Can Öztürk</div>
+                                        <div class="member-email">can@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>12 Aylık</td>
+                            <td>01 Ara 2025</td>
+                            <td>01 Ara 2026</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn">Görüntüle</button>
+                                    <button class="action-btn">Düzenle</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">ZA</div>
+                                    <div class="member-details">
+                                        <div class="member-name">Zeynep Arslan</div>
+                                        <div class="member-email">zeynep@email.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>6 Aylık</td>
+                            <td>10 Ağu 2025</td>
+                            <td>10 Şub 2026</td>
+                            <td><span class="status-badge expired">Süresi Doldu</span></td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn">Görüntüle</button>
+                                    <button class="action-btn">Yenile</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Questions -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Son Sorular</h2>
+                <a href="#" style="color: var(--orange); text-decoration: none;">Tümünü Gör →</a>
+            </div>
+
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-user">Ahmet Yılmaz</span>
+                    <span class="question-time">2 saat önce</span>
+                </div>
+                <div class="question-text">
+                    Göğüs antrenmanında bench press yerine dumbbell press yapabilir miyim? Omzumda hafif bir rahatsızlık var.
+                </div>
+                <span class="question-status">Yanıt Bekliyor</span>
+            </div>
+
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-user">Mehmet Kaya</span>
+                    <span class="question-time">5 saat önce</span>
+                </div>
+                <div class="question-text">
+                    Beslenme programında verilen porsiyon miktarlarını hafta sonları artırabilir miyim?
+                </div>
+                <span class="question-status answered">Yanıtlandı</span>
+            </div>
+
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-user">Elif Şahin</span>
+                    <span class="question-time">1 gün önce</span>
+                </div>
+                <div class="question-text">
+                    Antrenman sonrası whey protein kullanmalı mıyım yoksa normal yiyeceklerden protein almak yeterli mi?
+                </div>
+                <span class="question-status">Yanıt Bekliyor</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Animate chart bars on load
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.chart-bar');
+            bars.forEach((bar, index) => {
+                const height = bar.style.height;
+                bar.style.height = '0';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

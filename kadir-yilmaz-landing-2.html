@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadir Yılmaz - Kişisel Fitness Koçu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --dark-orange: #E85A28;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --text-gray: #CCCCCC;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--orange);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--orange);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: var(--dark-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0 5%;
+            margin-top: 80px;
+            overflow: hidden;
+            background-image: url('kadirlanding.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 6rem;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease-out;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 700px;
+        }
+
+        .hero-text .highlight {
+            color: var(--orange);
+            display: block;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            animation: slideInLeft 1s ease-out 0.2s backwards;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: slideInLeft 1s ease-out 0.4s backwards;
+        }
+
+        .secondary-button {
+            background: transparent;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .secondary-button:hover {
+            background: var(--orange);
+            color: var(--white);
+        }
+
+        .stats {
+            position: absolute;
+            bottom: 40px;
+            right: 5%;
+            background: var(--orange);
+            padding: 2rem 3rem;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+            animation: slideInUp 1s ease-out 1s backwards;
+            z-index: 3;
+        }
+
+        .stats h3 {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .stats p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        /* Packages Section */
+        .packages {
+            padding: 8rem 5%;
+            background: var(--gray);
+            position: relative;
+        }
+
+        .packages::before {
+            content: 'TRANSFORM';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 15rem;
+            font-family: 'Bebas Neue', cursive;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .packages-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .package-card {
+            background: var(--black);
+            border: 1px solid var(--light-gray);
+            padding: 3rem 2rem;
+            position: relative;
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .package-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .package-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        .package-duration {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .package-price {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .original-price {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            text-decoration: line-through;
+        }
+
+        .discounted-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .package-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .package-features li::before {
+            content: '→';
+            color: var(--orange);
+            font-weight: bold;
+        }
+
+        .package-card .cta-button {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            background: var(--black);
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            position: relative;
+            padding: 2.5rem;
+            background: var(--gray);
+            border-left: 4px solid var(--orange);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: var(--light-gray);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 5%;
+            background: var(--gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: var(--orange);
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image-wrapper {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--gray) 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 10% 100%, 0 90%);
+        }
+
+        .about-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .about-content h2 {
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            border-left: 3px solid var(--orange);
+            padding-left: 1.5rem;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5rem;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Transformations */
+        .transformations {
+            padding: 8rem 5%;
+            background: var(--black);
+        }
+
+        .transformations-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .transformations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .transformation-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--gray);
+            transition: all 0.4s;
+        }
+
+        .transformation-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+        }
+
+        .transformation-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+        }
+
+        .transformation-image {
+            aspect-ratio: 3/4;
+            background: var(--light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transformation-image::after {
+            content: 'ÖNCE';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--orange);
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .transformation-image:last-child::after {
+            content: 'SONRA';
+        }
+
+        .transformation-info {
+            padding: 2rem;
+        }
+
+        .transformation-duration {
+            font-family: 'Oswald', sans-serif;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--dark-orange) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 50px,
+                rgba(255, 255, 255, 0.05) 50px,
+                rgba(255, 255, 255, 0.05) 100px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-50px); }
+            100% { transform: translateX(50px); }
+        }
+
+        .cta-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-content .cta-button {
+            background: var(--white);
+            color: var(--orange);
+            font-size: 1.1rem;
+            padding: 1.2rem 3rem;
+        }
+
+        .cta-content .cta-button:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 4rem 5%;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--orange);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--orange);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--orange);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-text h1 {
+                font-size: 4rem;
+            }
+
+            .stats {
+                bottom: 20px;
+                right: 3%;
+                padding: 1.5rem 2rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 3rem 5%;
+                transition: left 0.3s;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero::before {
+                background: linear-gradient(to bottom, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.7) 100%);
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .stats {
+                position: static;
+                margin-top: 3rem;
+                width: fit-content;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .packages::before {
+                font-size: 8rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .transformations-grid,
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">KADIR YILMAZ</div>
+            <ul class="nav-links">
+                <li><a href="#hakkimda">Hakkımda</a></li>
+                <li><a href="#paketler">Paketler</a></li>
+                <li><a href="#dönüşümler">Dönüşümler</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+            <a href="#paketler" class="cta-button">Hemen Başla</a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    VÜCUDUNUN
+                    <span class="highlight">EN İYİ HALİNİ</span>
+                    YAŞA
+                </h1>
+                <p>Kişiye özel antrenman ve beslenme programlarıyla hedeflerine ulaş. 14 yıllık deneyim, binlerce başarı hikayesi.</p>
+                <div class="hero-buttons">
+                    <a href="#paketler" class="cta-button">Paketleri İncele</a>
+                    <a href="#hakkimda" class="secondary-button">Daha Fazla Bilgi</a>
+                </div>
+            </div>
+        </div>
+        <div class="stats">
+            <h3>26.525+</h3>
+            <p>Başarılı Dönüşüm</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title">SİSTEM NASIL ÇALIŞIYOR?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💪</div>
+                    <h3>Kişiye Özel Program</h3>
+                    <p>Vücut analizi ve hedeflerine göre tamamen sana özel hazırlanan antrenman ve beslenme programı.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3>Video Anlatımlar</h3>
+                    <p>Tüm hareketlerin detaylı video anlatımları ile doğru form ve teknikle çalış.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Birebir Destek</h3>
+                    <p>7/24 soru-cevap sistemi ile sesli ve yazılı olarak tüm sorularına anında yanıt al.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Gelişim Takibi</h3>
+                    <p>Haftalık vücut analizi ve ölçümlerin ile gelişimini grafiklerde gözlemle.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Beslenme Planı</h3>
+                    <p>Lezzetli tarifler ve esnek beslenme yaklaşımı ile keyifle hedefine ulaş.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Supplement Önerileri</h3>
+                    <p>İhtiyacına göre doğru takviye önerileri ve kullanım rehberi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="paketler" class="packages">
+        <div class="packages-container">
+            <h2 class="section-title">SANA ÖZEL PAKETLER</h2>
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div class="package-duration">6 Hafta / 1.5 Ay</div>
+                    <h3 class="package-title">STARTER</h3>
+                    <div class="package-price">
+                        <span class="original-price">3.012₺</span>
+                        <span class="discounted-price">2.400₺</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>Kişiye Özel Antrenman</li>
+                        <li>Beslenme Programı</li>
+                        <li>Video Anlatımlar</li>
+                        <li>Birebir Soru Cevap</li>
+                        <li>Vücut Analizi</li>
+                    </ul>
+                    <a href="#" class="cta-button">Hemen Başla</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-duration">13 Hafta / 3 Ay</div>
+                    <h3 class="package-title">TRANSFORM</h3>
+                    <div class="package-price">
+                        <span class="original-price">3.687₺</span>
+                        <span class="discounted-price">2.950₺</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>Kişiye Özel Antrenman</li>
+                        <li>Beslenme Programı</li>
+                        <li>Video Anlatımlar</li>
+                        <li>Birebir Soru Cevap</li>
+                        <li>Vücut Analizi</li>
+                    </ul>
+                    <a href="#" class="cta-button">Hemen Başla</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-duration">26 Hafta / 6 Ay</div>
+                    <h3 class="package-title">ULTIMATE</h3>
+                    <div class="package-price">
+                        <span class="original-price">4.875₺</span>
+                        <span class="discounted-price">3.900₺</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>Kişiye Özel Antrenman</li>
+                        <li>Beslenme Programı</li>
+                        <li>Video Anlatımlar</li>
+                        <li>Birebir Soru Cevap</li>
+                        <li>Vücut Analizi</li>
+                    </ul>
+                    <a href="#" class="cta-button">Hemen Başla</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-duration">52 Hafta / 1 Yıl</div>
+                    <h3 class="package-title">CHAMPION</h3>
+                    <div class="package-price">
+                        <span class="original-price">6.936₺</span>
+                        <span class="discounted-price">5.549₺</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>Kişiye Özel Antrenman</li>
+                        <li>Beslenme Programı</li>
+                        <li>Video Anlatımlar</li>
+                        <li>Birebir Soru Cevap</li>
+                        <li>Vücut Analizi</li>
+                    </ul>
+                    <a href="#" class="cta-button">Hemen Başla</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="hakkimda" class="about">
+        <div class="about-container">
+            <div class="about-image">
+                <div class="about-image-wrapper">
+                    <img src="kadirlanding.png" alt="Kadir Yılmaz">
+                </div>
+            </div>
+            <div class="about-content">
+                <h2 class="section-title">KİMDİR KADIR YILMAZ?</h2>
+                <p>14 yıldır fitness ve koçluk alanında profesyonel olarak çalışıyorum. Binlerce kişinin vücut dönüşümüne tanıklık ettim ve onların hayatlarını değiştirmelerine yardımcı oldum.</p>
+                <p>Sadece spor salonunda değil, yaşam tarzı değişikliği konusunda da rehberlik ediyorum. Çünkü biliyorum ki gerçek dönüşüm sadece fiziksel değil, mental olarak da güçlenmekle mümkün.</p>
+                <p>Sistemimi, yıllarca edindiğim deneyimler ve binlerce başarı hikayesi ile şekillendirdim. Artık sen de bu dönüşümün bir parçası olabilirsin.</p>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">14</div>
+                        <div class="stat-label">Yıllık Deneyim</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">26.525+</div>
+                        <div class="stat-label">Başarılı Dönüşüm</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformations Section -->
+    <section id="dönüşümler" class="transformations">
+        <div class="transformations-container">
+            <h2 class="section-title">BAŞARI HİKAYELERİ</h2>
+            <div class="transformations-grid">
+                <div class="transformation-card">
+                    <div class="transformation-images">
+                        <div class="transformation-image"></div>
+                        <div class="transformation-image"></div>
+                    </div>
+                    <div class="transformation-info">
+                        <div class="transformation-duration">13 Haftalık Paket</div>
+                        <p>Sistematik antrenman ve beslenme programı ile inanılmaz bir dönüşüm yaşadım.</p>
+                    </div>
+                </div>
+                <div class="transformation-card">
+                    <div class="transformation-images">
+                        <div class="transformation-image"></div>
+                        <div class="transformation-image"></div>
+                    </div>
+                    <div class="transformation-info">
+                        <div class="transformation-duration">26 Haftalık Paket</div>
+                        <p>Sadece kilo kaybetmekle kalmadım, hayatımın en iyi formuna ulaştım.</p>
+                    </div>
+                </div>
+                <div class="transformation-card">
+                    <div class="transformation-images">
+                        <div class="transformation-image"></div>
+                        <div class="transformation-image"></div>
+                    </div>
+                    <div class="transformation-info">
+                        <div class="transformation-duration">13 Haftalık Paket</div>
+                        <p>Kadir hocam sayesinde sağlıklı bir yaşam tarzı edindim ve kendime güvenim arttı.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>HAZIR MISIN?</h2>
+            <p>Seni değiştirmek için kurduğum bu kapsamlı sistemin bol imkanları sayesinde tam sana göre bir program oluşturacak ve birlikte, takipli şekilde ilerleyeceğiz!</p>
+            <a href="#paketler" class="cta-button">Hemen Başla</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="iletisim">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>KADIR YILMAZ</h3>
+                <p>Sana bir şeyler katmak ve vücudunun en iyi halini görebilmen için yardımcı olacağım.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Paketler</h4>
+                <ul class="footer-links">
+                    <li><a href="#">6 Haftalık</a></li>
+                    <li><a href="#">3 Aylık</a></li>
+                    <li><a href="#">6 Aylık</a></li>
+                    <li><a href="#">12 Aylık</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kurumsal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Hakkımda</a></li>
+                    <li><a href="#">Dönüşümler</a></li>
+                    <li><a href="#">SSS</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Sosyal Medya</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                    <li><a href="#">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2026 Kadir Yılmaz. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.package-card, .feature-card, .transformation-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

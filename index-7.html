@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadir Yılmaz Fitness Platform - Proje Dosyaları</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --orange: #FF6B35;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue';
+            font-size: 3rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #CCCCCC;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: var(--gray);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--orange);
+        }
+
+        .section h2 {
+            font-family: 'Bebas Neue';
+            font-size: 2rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .file-card {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border: 1px solid #333;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+            display: block;
+        }
+
+        .file-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.2);
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-desc {
+            font-size: 0.9rem;
+            color: #CCCCCC;
+        }
+
+        .demo-info {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+        }
+
+        .demo-info h3 {
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .demo-creds {
+            background: var(--light-gray);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏋️ Kadir Yılmaz Fitness Platform</h1>
+        <p class="subtitle">Tüm proje dosyalarına buradan erişebilirsiniz</p>
+
+        <div class="demo-info">
+            <h3>🔑 Demo Giriş Bilgileri</h3>
+            <div class="demo-creds">
+                <strong>Admin Paneli:</strong><br>
+                Kullanıcı: admin<br>
+                Şifre: admin123
+            </div>
+        </div>
+
+        <!-- Public Pages -->
+        <div class="section">
+            <h2>🌐 Public Sayfalar (Herkes Erişebilir)</h2>
+            <div class="file-grid">
+                <a href="kadir-yilmaz-landing.html" class="file-card">
+                    <div class="file-icon">🏠</div>
+                    <div class="file-name">Landing Page</div>
+                    <div class="file-desc">Ana sayfa - Buradan başlayın!</div>
+                </a>
+                <a href="member-register.html" class="file-card">
+                    <div class="file-icon">📝</div>
+                    <div class="file-name">Üye Kayıt</div>
+                    <div class="file-desc">Yeni üye kaydı (self-register)</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Member Pages -->
+        <div class="section">
+            <h2>👤 Üye Paneli</h2>
+            <div class="file-grid">
+                <a href="member-dashboard.html" class="file-card">
+                    <div class="file-icon">📊</div>
+                    <div class="file-name">Üye Dashboard</div>
+                    <div class="file-desc">Üye ana paneli, istatistikler</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Admin Pages -->
+        <div class="section">
+            <h2>👑 Admin Paneli</h2>
+            <div class="file-grid">
+                <a href="admin-login.html" class="file-card">
+                    <div class="file-icon">🔐</div>
+                    <div class="file-name">Admin Giriş</div>
+                    <div class="file-desc">Admin login sayfası</div>
+                </a>
+                <a href="admin-dashboard.html" class="file-card">
+                    <div class="file-icon">📈</div>
+                    <div class="file-name">Admin Dashboard</div>
+                    <div class="file-desc">Ana panel, istatistikler</div>
+                </a>
+                <a href="admin-management.html" class="file-card">
+                    <div class="file-icon">👥</div>
+                    <div class="file-name">Admin Yönetimi</div>
+                    <div class="file-desc">Admin ekle/düzenle/sil</div>
+                </a>
+                <a href="admin-add-member.html" class="file-card">
+                    <div class="file-icon">➕</div>
+                    <div class="file-name">Üye Ekle (Admin)</div>
+                    <div class="file-desc">Admin tarafından üye ekleme</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="section">
+            <h2>📚 Dokümantasyon</h2>
+            <div class="file-grid">
+                <a href="README.md" class="file-card" target="_blank">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">README.md</div>
+                    <div class="file-desc">Detaylı proje dokümantasyonu</div>
+                </a>
+                <a href="fitness-platform-roadmap.md" class="file-card" target="_blank">
+                    <div class="file-icon">🗺️</div>
+                    <div class="file-name">Roadmap</div>
+                    <div class="file-desc">6 aylık geliştirme planı</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="section">
+            <h2>🚀 Hızlı Başlangıç</h2>
+            <ol style="line-height: 2; color: #CCCCCC;">
+                <li><strong style="color: var(--orange);">Landing Page</strong> ile başlayın - Tüm tasarımı görün</li>
+                <li><strong style="color: var(--orange);">Admin Login</strong> yapın - Demo bilgileri kullanın</li>
+                <li><strong style="color: var(--orange);">Admin Dashboard</strong>'u keşfedin</li>
+                <li><strong style="color: var(--orange);">Admin Yönetimi</strong>'nde admin ekle/sil deneyin</li>
+                <li><strong style="color: var(--orange);">Üye Kayıt</strong> ile yeni hesap oluşturun</li>
+                <li><strong style="color: var(--orange);">README.md</strong>'yi okuyun - Detaylı bilgi için</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #333; color: #666;">
+            <p>© 2026 Kadir Yılmaz Fitness Platform | Tüm hakları saklıdır</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Versiyon 1.0.0 - Alpha</p>
+        </div>
+    </div>
+</body>
+</html>

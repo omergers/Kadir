@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ödeme</title>
+    <style>
+        body{font-family:sans-serif;background:#0A0A0A;color:#fff;padding:2rem;text-align:center}
+        .card{background:#1A1A1A;padding:2rem;max-width:500px;margin:2rem auto}
+        input{width:100%;padding:1rem;margin:0.5rem 0;background:#2A2A2A;border:none;color:#fff}
+        button{width:100%;padding:1.5rem;background:#FF6B35;border:none;color:#fff;font-size:1.1rem;cursor:pointer}
+    </style>
+</head>
+<body>
+    <h1>🔒 Güvenli Ödeme</h1>
+    <div class="card">
+        <h2 id="pkgInfo"></h2>
+        <form id="payForm">
+            <input type="text" placeholder="Kart İsmi" required>
+            <input type="text" placeholder="Kart No" required>
+            <input type="text" placeholder="MM/YY" required>
+            <input type="text" placeholder="CVV" required>
+            <button type="submit">Ödemeyi Tamamla</button>
+        </form>
+    </div>
+    <script>
+        const p=JSON.parse(localStorage.getItem('selectedPackage')||'{}');
+        document.getElementById('pkgInfo').textContent=p.name+' - '+p.price;
+        document.getElementById('payForm').addEventListener('submit',e=>{
+            e.preventDefault();
+            let u=JSON.parse(localStorage.getItem('currentUser')||'{}');
+            u.hasPackage=true;u.packageType=p.id;u.status='active';
+            localStorage.setItem('currentUser',JSON.stringify(u));
+            alert('✓ Ödeme Başarılı!');
+            window.location.href='body-measurements.html';
+        });
+    </script>
+</body>
+</html>

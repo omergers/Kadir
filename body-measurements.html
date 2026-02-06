@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vücut Ölçümleri</title>
+    <style>
+        body{font-family:sans-serif;background:#0A0A0A;color:#fff;padding:2rem}
+        .container{max-width:600px;margin:0 auto}
+        h1{font-size:2.5rem;color:#FF6B35;text-align:center}
+        .card{background:#1A1A1A;padding:2rem;margin:2rem 0}
+        label{display:block;margin:1rem 0 0.5rem;color:#CCC}
+        input,select,textarea{width:100%;padding:1rem;background:#2A2A2A;border:1px solid #333;color:#fff}
+        button{width:100%;padding:1.5rem;background:#FF6B35;border:none;color:#fff;font-size:1.1rem;cursor:pointer;margin-top:2rem}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📏 Vücut Ölçümleri ve Hedef</h1>
+        <p style="text-align:center;color:#CCC;margin-bottom:2rem">Sana özel program hazırlayabilmemiz için bilgilerini gir</p>
+        
+        <div class="card">
+            <form id="measureForm">
+                <label>Boy (cm)</label>
+                <input type="number" id="height" required>
+                
+                <label>Kilo (kg)</label>
+                <input type="number" id="weight" required>
+                
+                <label>Yaş</label>
+                <input type="number" id="age" required>
+                
+                <label>Cinsiyet</label>
+                <select id="gender" required>
+                    <option value="">Seçin</option>
+                    <option value="male">Erkek</option>
+                    <option value="female">Kadın</option>
+                </select>
+                
+                <label>Hedef Kilo (kg)</label>
+                <input type="number" id="targetWeight" required>
+                
+                <label>Hedefin Nedir?</label>
+                <select id="goal" required>
+                    <option value="">Seçin</option>
+                    <option value="lose">Kilo Vermek</option>
+                    <option value="gain">Kilo Almak</option>
+                    <option value="maintain">Form Tutmak</option>
+                </select>
+                
+                <label>Sağlık Durumu / Rahatsızlık (varsa)</label>
+                <textarea id="health" rows="3" placeholder="Herhangi bir sağlık probleminiz varsa belirtin..."></textarea>
+                
+                <button type="submit">Kaydet ve Devam Et</button>
+            </form>
+        </div>
+        
+        <p style="text-align:center;color:#CCC;font-size:0.9rem">
+            ℹ️ Bilgiler kaydedildikten sonra 48 saat içinde sana özel program hazırlanacak
+        </p>
+    </div>
+    
+    <script>
+        document.getElementById('measureForm').addEventListener('submit',e=>{
+            e.preventDefault();
+            let u=JSON.parse(localStorage.getItem('currentUser')||'{}');
+            u.profileCompleted=true;
+            u.measurements={
+                height:document.getElementById('height').value,
+                weight:document.getElementById('weight').value,
+                age:document.getElementById('age').value,
+                gender:document.getElementById('gender').value,
+                targetWeight:document.getElementById('targetWeight').value,
+                goal:document.getElementById('goal').value,
+                health:document.getElementById('health').value
+            };
+            localStorage.setItem('currentUser',JSON.stringify(u));
+            alert('✓ Bilgiler kaydedildi! 48 saat içinde programın hazır olacak.');
+            window.location.href='member-dashboard.html';
+        });
+    </script>
+</body>
+</html>

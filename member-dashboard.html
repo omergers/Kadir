@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üye Paneli - Kadir Yılmaz Koç</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --dark-orange: #E85A28;
+            --black: #0A0A0A;
+            --gray: #1A1A1A;
+            --light-gray: #2A2A2A;
+            --text-gray: #CCCCCC;
+            --white: #FFFFFF;
+            --green: #4CAF50;
+            --red: #F44336;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--gray);
+            border-right: 1px solid var(--light-gray);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--orange);
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-user {
+            padding: 0 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 2rem;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .user-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .user-package {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--light-gray);
+            color: var(--orange);
+            border-left-color: var(--orange);
+        }
+
+        .sidebar-nav .icon {
+            font-size: 1.3rem;
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            background: transparent;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+            padding: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--orange);
+            color: var(--white);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--orange);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .notification-icon:hover {
+            color: var(--orange);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--red);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--gray);
+            padding: 2rem;
+            border-left: 4px solid var(--orange);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--orange);
+            opacity: 0.05;
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-change.positive {
+            color: var(--green);
+        }
+
+        .stat-change.negative {
+            color: var(--red);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--gray);
+            padding: 2rem;
+            border: 1px solid var(--light-gray);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .card-action {
+            font-size: 0.9rem;
+            color: var(--orange);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .card-action:hover {
+            color: var(--dark-orange);
+        }
+
+        /* Progress Chart */
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: var(--orange);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange) 0%, var(--dark-orange) 100%);
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        /* Upcoming Sessions */
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light-gray);
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .session-item:hover {
+            background: var(--black);
+        }
+
+        .session-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.8rem;
+            background: var(--orange);
+            border-radius: 5px;
+            min-width: 70px;
+        }
+
+        .session-day {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .session-month {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .session-details {
+            flex: 1;
+        }
+
+        .session-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .session-time {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border: 1px solid var(--light-gray);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .action-btn:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: translateY(-3px);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Recent Activity */
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--orange);
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 5rem 1rem 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">KADIR YILMAZ</div>
+        
+        <div class="sidebar-user">
+            <div class="user-avatar">AY</div>
+            <div class="user-name">Ahmet Yılmaz</div>
+            <div class="user-package">3 Aylık Paket - 45 gün kaldı</div>
+        </div>
+
+        <nav>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#" class="active">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">💪</span>
+                        <span>Antrenman Programı</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">🥗</span>
+                        <span>Beslenme Programı</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">📈</span>
+                        <span>Vücut Analizi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">❓</span>
+                        <span>Soru-Cevap</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">📋</span>
+                        <span>Tarifler</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">💊</span>
+                        <span>Supplement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">📸</span>
+                        <span>Gelişim Fotoğrafları</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon">⚙️</span>
+                        <span>Ayarlar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <button class="logout-btn">Çıkış Yap</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1 class="page-title">Dashboard</h1>
+            <div class="user-info">
+                <div class="notification-icon">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Başlangıç Kilosu</div>
+                <div class="stat-value">85 KG</div>
+                <div class="stat-change">Başlangıç tarihi: 15 Ocak 2026</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Güncel Kilo</div>
+                <div class="stat-value">78 KG</div>
+                <div class="stat-change positive">
+                    ↓ 7 kg kaybettiniz
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Hedef Kilo</div>
+                <div class="stat-value">75 KG</div>
+                <div class="stat-change">
+                    3 kg kaldı
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Tamamlanan Antrenman</div>
+                <div class="stat-value">32/45</div>
+                <div class="stat-change positive">
+                    ↑ %71 tamamlandı
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Weekly Progress -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Haftalık İlerleme</h2>
+                    <a href="#" class="card-action">Detaylı Görüntüle →</a>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <span class="progress-label">Antrenman Tamamlama</span>
+                        <span class="progress-value">5/6</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 83%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <span class="progress-label">Beslenme Planına Uyum</span>
+                        <span class="progress-value">6/7</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 86%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <span class="progress-label">Su Tüketimi (Litre)</span>
+                        <span class="progress-value">2.8/3.0</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 93%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-info">
+                        <span class="progress-label">Uyku Kalitesi (Saat)</span>
+                        <span class="progress-value">7.5/8.0</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Sessions -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Bu Hafta</h2>
+                    <a href="#" class="card-action">Tümü →</a>
+                </div>
+
+                <div class="session-item">
+                    <div class="session-date">
+                        <div class="session-day">06</div>
+                        <div class="session-month">ŞUB</div>
+                    </div>
+                    <div class="session-details">
+                        <div class="session-title">Göğüs & Triceps</div>
+                        <div class="session-time">Bugün - 18:00</div>
+                    </div>
+                </div>
+
+                <div class="session-item">
+                    <div class="session-date">
+                        <div class="session-day">07</div>
+                        <div class="session-month">ŞUB</div>
+                    </div>
+                    <div class="session-details">
+                        <div class="session-title">Sırt & Biceps</div>
+                        <div class="session-time">Yarın - 18:00</div>
+                    </div>
+                </div>
+
+                <div class="session-item">
+                    <div class="session-date">
+                        <div class="session-day">08</div>
+                        <div class="session-month">ŞUB</div>
+                    </div>
+                    <div class="session-details">
+                        <div class="session-title">Bacak Günü</div>
+                        <div class="session-time">Cumartesi - 10:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Recent Activity -->
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Hızlı Erişim</h2>
+                </div>
+                <div class="quick-actions">
+                    <a href="#" class="action-btn">
+                        <div class="action-icon">📝</div>
+                        <div class="action-label">Vücut Ölçümü Ekle</div>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <div class="action-icon">❓</div>
+                        <div class="action-label">Soru Sor</div>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <div class="action-icon">📸</div>
+                        <div class="action-label">Fotoğraf Yükle</div>
+                    </a>
+                    <a href="#" class="action-btn">
+                        <div class="action-icon">📊</div>
+                        <div class="action-label">Rapor Görüntüle</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Son Aktiviteler</h2>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">✅</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Göğüs & Triceps antrenmanı tamamlandı</div>
+                        <div class="activity-time">2 saat önce</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">💬</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Koç mesajınıza yanıt verdi</div>
+                        <div class="activity-time">5 saat önce</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">📈</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Haftalık ilerleme raporu oluşturuldu</div>
+                        <div class="activity-time">1 gün önce</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">🎯</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Yeni hedef belirlendi: 75kg</div>
+                        <div class="activity-time">3 gün önce</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
